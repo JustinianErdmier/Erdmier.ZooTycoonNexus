@@ -213,14 +213,14 @@ Avalonia.Headless.XUnit.
 
 ## Task 5: Check it in the running app (controller)
 
-- [ ] **Step 1:** Run the launcher against a sample installation. Open Help → About and compare it with the prototype's header and footer
+- [x] **Step 1:** Run the launcher against a sample installation. Open Help → About and compare it with the prototype's header and footer
   (`dialogs.jsx:356`, header and footer only). Confirm the version and build date, close the box with OK, Enter, Esc and ✕, and confirm the title bar and both status bars
   (booting and booted).
-- [ ] **Step 2:** Close the launcher.
+- [x] **Step 2:** Close the launcher.
 
 ## Verification
 
 - [ ] Clean build with 0 warnings; every test project passes.
 - [ ] `Directory.Build.props` is the only place the release number is set; the Task 3 search finds nothing under `Source/` but the designer constructor.
-- [ ] Task 5 checked in the running app, or recorded in the ledger as left to the maintainer.
+- [x] Task 5 checked in the running app, or recorded in the ledger as left to the maintainer.
 - [ ] Final whole-branch review and fix waves per CLAUDE.md; then push and open the pull request.
