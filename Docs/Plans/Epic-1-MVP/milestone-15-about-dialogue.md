@@ -114,7 +114,7 @@ Avalonia.Headless.XUnit.
   - Read-only `string` properties, computed once: `ProductName`, `VersionLine`, `Description`, `Attribution` and `Copyright`.
   - `VersionLine` is `$"Version {Version} (build {BuildDateUtc.ToString("yyyy.MM.dd", CultureInfo.InvariantCulture)})"`.
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
   - `VersionLine_FormatsVersionAndBuildDate`: a fake reporting `2.4.6` and `new DateOnly(2027, 1, 9)` gives `Version 2.4.6 (build 2027.01.09)`.
   - `VersionLine_IgnoresCurrentCulture`: the same, with `CultureInfo.CurrentCulture` set to `th-TH` and then `ar-SA` (restore it in `finally`).
   - `Copyright_PassesThrough`; `ProductName_Description_Attribution_AreTheSpecCopy`, with the three strings from the Global Constraints verbatim.
@@ -123,8 +123,8 @@ Avalonia.Headless.XUnit.
     - `OkButton_IsDefaultAndCancel`: find the button whose `Content` is `OK` and assert `IsDefault` and `IsCancel`.
     - `LongCopy_WrapsWithinWindowWidth`: a fake copyright of 300 characters. After `Show()` and `RunJobs()`, `view.Bounds.Width` is still `430`.
     - `Logo_IsPrimaryIconAt64`: the `Image` source path ends with `ZTL_Primary-Icon.png`, and its `Width` and `Height` are `64`.
-- [ ] **Step 2: Run** the Desktop test project filtered to `AboutDialog`. Expected: the build fails.
-- [ ] **Step 3: Implement** the view model and the view per spec §4.5, in `ErrorMessageView`'s mould:
+- [x] **Step 2: Run** the Desktop test project filtered to `AboutDialog`. Expected: the build fails.
+- [x] **Step 3: Implement** the view model and the view per spec §4.5, in `ErrorMessageView`'s mould:
   - **Window:** `ClassicWindow`, `CanResize="False"`, `ShowInTaskbar="False"`, `SizeToContent="Height"`, `WindowStartupLocation="CenterOwner"`, `Width="430"`,
     icon `ZTL_Title-Icon.png`, and the minimise/restore caption-collapse styles.
   - **Header:** a `DockPanel` with the 64 px logo docked left and top-aligned. Beside it, a `StackPanel` holding the name (`FontSizeAboutTitle`, `FontWeightStrong`),
@@ -133,8 +133,8 @@ Avalonia.Headless.XUnit.
   - **Footer:** a right-aligned footer (conventions §5) with one `OK` `DialogButton`, `IsDefault="True"` and `IsCancel="True"`, closing from a code-behind click
     handler.
   - Every `TextBlock` with copy wraps.
-- [ ] **Step 4: Run** the Desktop and Architecture test projects. Expected: all pass, including `ViewLoadTests`, which picks up the new view, and the view-pair rule.
-- [ ] **Step 5: Commit**: `feat(✨): add the About dialogue`
+- [x] **Step 4: Run** the Desktop and Architecture test projects. Expected: all pass, including `ViewLoadTests`, which picks up the new view, and the view-pair rule.
+- [x] **Step 5: Commit**: `feat(✨): add the About dialogue`
 
 ---
 

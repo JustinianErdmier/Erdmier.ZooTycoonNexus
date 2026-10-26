@@ -1,0 +1,70 @@
+<ClassicWindow xmlns="https://github.com/avaloniaui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:tokens="using:Erdmier.ZooTycoonNexus.Desktop.Styles"
+               xmlns:vm="using:Erdmier.ZooTycoonNexus.Desktop.ViewModels.Dialogs"
+               xmlns:layout="clr-namespace:Erdmier.ZooTycoonNexus.Desktop.Views.Layout"
+               x:Class="Erdmier.ZooTycoonNexus.Desktop.Views.Dialogs.AboutDialogView"
+               x:DataType="vm:AboutDialogViewModel"
+               CanResize="False"
+               Icon="/Assets/BrandIcons/ZTL_Title-Icon.png"
+               ShowInTaskbar="False"
+               SizeToContent="Height"
+               Title="  About Zoo Tycoon Nexus"
+               Width="430"
+               WindowStartupLocation="CenterOwner">
+    <ClassicWindow.Styles>
+        <Style Selector="CaptionButtons /template/ Button#PART_MinimizeButton">
+            <Setter Property="IsVisible"
+                    Value="False" />
+        </Style>
+        <Style Selector="CaptionButtons /template/ Button#PART_RestoreButton">
+            <Setter Property="IsVisible"
+                    Value="False" />
+        </Style>
+    </ClassicWindow.Styles>
+
+    <StackPanel Margin="{tokens:Space MarginDialog}"
+                Orientation="Vertical"
+                Spacing="{StaticResource GapUnrelated}">
+        <DockPanel HorizontalSpacing="{StaticResource GapUnrelated}">
+            <Image DockPanel.Dock="Left"
+                   Classes="IconLogo"
+                   Source="/Assets/BrandIcons/ZTL_Primary-Icon.png"
+                   VerticalAlignment="Top" />
+
+            <StackPanel Orientation="Vertical"
+                        Spacing="{StaticResource GapRelated}">
+                <TextBlock FontSize="{StaticResource FontSizeAboutTitle}"
+                           FontWeight="{StaticResource FontWeightStrong}"
+                           Text="{Binding ProductName}"
+                           TextWrapping="Wrap" />
+
+                <TextBlock Text="{Binding VersionLine}"
+                           TextWrapping="Wrap" />
+
+                <TextBlock Classes="MutedText"
+                           Text="{Binding Description}"
+                           TextWrapping="Wrap" />
+            </StackPanel>
+        </DockPanel>
+
+        <Separator />
+
+        <StackPanel Orientation="Vertical"
+                    Spacing="{StaticResource GapRelated}">
+            <TextBlock Text="{Binding Attribution}"
+                       TextWrapping="Wrap" />
+
+            <TextBlock Text="{Binding Copyright}"
+                       TextWrapping="Wrap" />
+        </StackPanel>
+
+        <layout:UniformStack HorizontalAlignment="Right">
+            <Button Click="OnOkClick"
+                    Content="OK"
+                    IsCancel="True"
+                    IsDefault="True"
+                    Classes="DialogButton" />
+        </layout:UniformStack>
+    </StackPanel>
+</ClassicWindow>

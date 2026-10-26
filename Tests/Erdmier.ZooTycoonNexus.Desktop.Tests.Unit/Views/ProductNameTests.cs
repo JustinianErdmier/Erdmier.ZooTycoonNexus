@@ -24,4 +24,12 @@ public sealed class ProductNameTests
 
         view.Title.ShouldBe("  Zoo Tycoon Nexus");
     }
+
+    [ AvaloniaFact ]
+    public void AboutDialog_Title_IsAboutZooTycoonNexus()
+    {
+        AboutDialogView view = new() { DataContext = new AboutDialogViewModel() };
+
+        view.Title.ShouldBe("  About Zoo Tycoon Nexus");
+    }
 }
