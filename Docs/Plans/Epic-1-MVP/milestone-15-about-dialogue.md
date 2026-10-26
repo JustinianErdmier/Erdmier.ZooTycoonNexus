@@ -190,7 +190,7 @@ Avalonia.Headless.XUnit.
 - Modify: `Docs/UserInterfaceDesign/conventions.md`.
 - Modify: `Docs/TestPlans/manual-end-to-end-tests.md`.
 
-- [ ] **Step 1: SDD** (spec §5):
+- [x] **Step 1: SDD** (spec §5):
   - **§9.1:** the title bar becomes `Zoo Tycoon Nexus` with no version. The status-bar bullet says the version label is `V` + the build's version, read through
     `IProductInfo`.
   - **§9.9:** rewritten as built. Name the view pair, the logo asset and size, the §4.5 copy, the version and build-date sources, and OK as default + cancel.
@@ -198,15 +198,15 @@ Avalonia.Headless.XUnit.
   - **§11.4:** list the new test classes.
   - **§13.5 DW-23:** narrow it to the status messages and the repeated "Cannot Reload zoo.ini" title.
   - **Document control:** a 1.19 row for milestone 15 that names the sections changed.
-- [ ] **Step 2: conventions §4 icon table:** the About row becomes `ZTL_Title-Icon.png` (title bar) / `ZTL_Primary-Icon.png` (body, 64 px), with the *(not built)* note
+- [x] **Step 2: conventions §4 icon table:** the About row becomes `ZTL_Title-Icon.png` (title bar) / `ZTL_Primary-Icon.png` (body, 64 px), with the *(not built)* note
   removed.
-- [ ] **Step 3: Manual test plan:** add an About case:
+- [x] **Step 3: Manual test plan:** add an About case:
   - Help → About opens it, centred on the main window.
   - The version matches the status bar.
   - The build date is the build's own.
   - OK, Enter, Esc and ✕ each close it.
   - The title bar shows no version.
-- [ ] **Step 4: Verify** that every changed line of prose is ≤ 180 characters (PowerShell `.Length`). **Commit**: `docs(📝): document the About dialogue and the
+- [x] **Step 4: Verify** that every changed line of prose is ≤ 180 characters (PowerShell `.Length`). **Commit**: `docs(📝): document the About dialogue and the
   build-stamped version`
 
 ---

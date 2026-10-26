@@ -11,10 +11,10 @@
 |--------------------------|-----------------------------------|
 | **Project**              | Zoo Tycoon Nexus                  |
 | **Document**             | Software Design Document (SDD)    |
-| **Version**              | 1.18                              |
+| **Version**              | 1.19                              |
 | **Status**               | Draft for implementation          |
 | **Author**               | Justinian                         |
-| **Last updated**         | 23 October 2026                   |
+| **Last updated**         | 25 October 2026                   |
 | **Language conventions** | Standard Southern British English |
 
 ### Revision history
@@ -41,6 +41,7 @@
 | 1.16    | 22 October 2026   | Justinian | Milestone 12 (INI editor display style; spec `milestone-12-ini-editor-display-style-design.md`). The INI Config editor gains two display styles chosen in Options: a Friendly style (the default) that groups settings into eight pages by purpose with plain labels, meaning-based values and volume sliders, and an INI style that shows `zoo.ini` literally (the inverted `noMenuMusic` included). §5.1 / §5.2 / §5.5 / §6.2 add `LauncherSettings.IniEditorStyle` and the `IniEditorStyle` SmartEnum; §9.3 gains §9.3.3 *Display styles*; §9.7 makes the diff follow the style; §9.8 adds the *INI editor* group box, which applies on `OK`; §13.2 names both styles. Follow-ups: a **View** menu (*Config layout* ▸ *Friendly style* / *INI style*) switches the style from the main window (§9.10, §9.3.3); the Friendly cash keys describe the new-zoo starting-cash picker; the language codes sit on their own line; the Restore dialogue's Friendly key column uses the system face (§9.7). |
 | 1.17    | 23 October 2026   | Justinian | Milestone 13 (Game Config tab rename). The INI Config tab is renamed Game Config for players throughout (§2.2, §3.1, §5.1, §7.1, §7.2, §7.3–§7.5, §9, §9.1, §9.3, §9.3.1, §9.3.3, §9.8 Options copy, whose group box becomes *Config editor*, §9.12, §11.4, §13.2, §13.5.1, §14.5, §15), and its documented access key moves to Alt-C. §9.3 records why the code identifiers keep `IniConfig`. |
 | 1.18    | 23 October 2026   | Justinian | Milestone 14 renames the application Zoo Tycoon Nexus: the solution, projects and namespaces become `Erdmier.ZooTycoonNexus.*`, and storage moves to `%LOCALAPPDATA%\ZooTycoonNexus\` with `Nexus.db` / `Nexus.log` and no migration of the old folder. This document moves to `1-zoo-tycoon-nexus-master-design.md`. Sections changed: the title, the document control table and §1.1–§1.2 (the name; "launcher" stays the ordinary word for the role, and the `Launcher*` code names keep it), §2.4, §3.1, §4.2, §4.5, §4.7, §5.5, §6.1, §6.2, §6.4, §7.1.1, §7.2.4, §9, §9.1 (title bar `Zoo Tycoon Nexus V<version>`), §9.9 (`About Zoo Tycoon Nexus`), §9.10, §10, §11.1–§11.5 and §13.2. |
+| 1.19    | 25 October 2026   | Justinian | Milestone 15 (About dialogue; spec `milestone-15-about-dialogue-design.md`). Help → About opens the §9.9 dialogue. The release number is set once, in `Directory.Build.props`, and read back at runtime through `IProductInfo`, so the title bar drops the version and the status bar and the About box cannot disagree with the build or with each other. Sections changed: the document control table, §9.1 (title bar `Zoo Tycoon Nexus`, status-bar version label), §9.9 (the dialogue as built), §9.10 (the About row and `OpenAboutCommand`), §11.4 (the new test classes) and §13.5 (DW-23 loses its version half). |
 
   
 ---  
@@ -1261,7 +1262,7 @@ covering every state, every dialogue and the Game Config tab help affordance (it
 
 ### 9.1 Main window and chrome
 
-- **Title bar.** Launcher icon + title (`Zoo Tycoon Nexus V<version>`) + **close-only** caption buttons. Minimise and maximise are intentionally absent — the launcher is a
+- **Title bar.** Launcher icon + title (`Zoo Tycoon Nexus`, with no version) + **close-only** caption buttons. Minimise and maximise are intentionally absent — the launcher is a
   fixed-size utility window. `ClassicWindow.CanMinimise` / `.CanMaximise` resolve to `false`, and an explicit style on the caption-button template collapses the minimise and
   restore visuals (the Classic theme honours those properties only for `:fullscreen` / `:dialog:cantresize`).
 - **Window width.** **480 px** while booting (the Looking for Zoo Tycoon state) and **720 px** once booted, driven by `MainWindowViewModel.IsBooting`. The booted width is fixed
@@ -1269,8 +1270,9 @@ covering every state, every dialogue and the Game Config tab help affordance (it
 - **Menu strip.** Just **File** and **Help** — Edit and View are removed. See §9.10 for the full item list.
 - **Tab strip.** Two tabs along the top edge of the content area for the `ReadyToPlay` and `CannotPlay` states: **General** (Alt-G) and **Game Config** (Alt-C). The strip is
   absent — not just disabled — in the `LookingForZooTycoon`, `NoGameInstallationFound`, and `OpenGameInstallation` states; with no installation open, there is nothing to edit.
-- **Status bar.** Two cells while booting (primary message + version label); three cells once booted (primary message + secondary detail + version label). `MainWindowViewModel`
-  owns the message text and an `IsStatusError` flag; `ErrorToBrushConverter` tints the secondary cell `AccentRed` for `Fix required` (Cannot Play only).
+- **Status bar.** Two cells while booting (primary message + version label); three cells once booted (primary message + secondary detail + version label). The version label is `V`
+  plus the build's version (`V1.0.0`): `MainWindowViewModel.VersionText` builds it from `IProductInfo` (§9.9), so no view carries the number. `MainWindowViewModel` owns the message
+  text and an `IsStatusError` flag; `ErrorToBrushConverter` tints the secondary cell `AccentRed` for `Fix required` (Cannot Play only).
 
 The five states reflect the startup state machine (§7.1). The hi-fi prototype (§9.12) is the visual contract for each one; what follows is a layout sketch, not a style guide:
 
@@ -1586,9 +1588,28 @@ next start and the close setting at the next launch. The INI editor style is the
 
 ### 9.9 About dialogue
 
-`ClassicWindow` modal titled `About Zoo Tycoon Nexus`. The body shows the launcher's app logo alongside product name, `Version <n.n.n> (build <YYYY.MM.DD>)`, a short
-descriptor line, a separator, and an attribution line naming the principal libraries (`.NET 10`, `Avalonia 11.3`, `Classic.Avalonia`, `SQLite via EF Core`, `Serilog`) plus
-`© <year> <author>`. Footer: `OK` (default).
+A view pair, `AboutDialogViewModel` / `AboutDialogView` (as §9.8 does for Options), opened by `IDialogService.ShowAboutAsync`. It is a `ClassicWindow` modal, 430 px wide, that
+cannot be resized and has no minimise or restore caption button. It has no task-bar entry, centres on the main window and grows to fit its height. The title is
+`  About Zoo Tycoon Nexus` (two leading spaces, conventions §4.1) and the title-bar icon is `ZTL_Title-Icon.png`, as for the main window.
+
+- **Header.** `ZTL_Primary-Icon.png` at 64 px (the `Image.IconLogo` class), top-aligned on the left. Beside it, three lines: `Zoo Tycoon Nexus` (`FontSizeAboutTitle`,
+  `FontWeightStrong`); `Version <n.n.n> (build <yyyy.MM.dd>)`; and the muted, wrapping descriptor `A native Windows launcher and configuration tool for Zoo Tycoon (2001).`
+- **Separator.** The etched horizontal rule the other dialogues use.
+- **Attribution.** `Built with .NET 10, Avalonia 11.3, Classic.Avalonia, SQLite via EF Core and Serilog.`, then `© 2026 Justinian Erdmier` on its own line. Both wrap within the
+  window width. The library list is fixed copy that names major / minor families, not read from the package references, so a patch bump needs no edit and a move to a new
+  .NET or Avalonia major version is a one-line copy change.
+- **Footer.** One `OK` button, right-aligned, both `IsDefault` and `IsCancel`, so Enter, Esc and the title-bar close all close the box. It has no access key. `OK` closes through
+  a code-behind click handler, as `ErrorMessageView` does.
+
+`AboutDialogViewModel` exposes `ProductName`, `VersionLine`, `Description`, `Attribution` and `Copyright` as read-only strings, computed once from the injected `IProductInfo`, and
+has no commands. `VersionLine` formats the date as `yyyy.MM.dd` in the invariant culture: it is an identifier, so the player's calendar or digits never change it.
+
+**Where the numbers come from.** `IProductInfo` (`Desktop.Composition`; version, UTC build date and copyright) is implemented by `AssemblyProductInfo`, a singleton that reads the
+Desktop assembly's attributes once, at construction. The release number is set in one place, `<Version>` in `Directory.Build.props`, which also sets `<Authors>` and the fixed
+`<Copyright>` (`© 2026 Justinian Erdmier`, the year of first publication, not computed from the build year). The Desktop project stamps the build date itself, as an
+`AssemblyMetadata` item with key `BuildDateUtc` (the UTC date of the build, `yyyy-MM-dd`; date-only so a deterministic build changes at most once a day). `AssemblyProductInfo`
+strips any `+<metadata>` suffix the SDK appends to the informational version (a source-revision hash), keeps a pre-release label such as `-beta.1`, and never throws: a missing
+attribute falls back to `0.0.0`, `DateOnly.MinValue` or an empty copyright and logs a warning. The main window title and both status-bar cells use the same source (§9.1).
 
 ### 9.10 Menu structure
 
@@ -1608,7 +1629,7 @@ builds them.
 |          | Config layout ▸ INI style      | `ChooseIniStyleCommand`         | The other half of the radio pair. Both are enabled whenever the menu is visible, and disabled only while a style save runs. |
 | **Help** | Contents                       |                                 | Stub for the MVP: opens nothing but is kept so the eventual CHM/manual has a home. Surfacing it now communicates intent.    |
 |          | —                              |                                 |                                                                                                                             |
-|          | About                          |                                 | Stub for now; it will open the §9.9 dialogue. No "Zoo Tycoon Nexus" suffix — the dialogue title already carries it.         |
+|          | About                          | `OpenAboutCommand`              | Opens the §9.9 dialogue. No "Zoo Tycoon Nexus" suffix — the dialogue title already carries it.                              |
 
 An `Edit` menu is not present. The **View** menu holds one submenu, *Config layout*, whose two items form a mutually exclusive radio pair (conventions §10): the bullet follows the
 INI editor style in force, so a change made in Options moves it too. The stored style is loaded at start-up (§9.3.3), so the bullet is right in every state after boot. A choice is
@@ -1747,6 +1768,12 @@ tab host, the pending-changes guard on `PlayViewModel` and `MainWindowViewModel`
   `Startup_AThrowingQuery_LeavesTheStyleAndTheBootCompletes`, and runs once across a reboot, `Startup_TheStoredStyleIsLoadedOnlyOnceAcrossAReboot`). `MainWindowStyleMenuTests`
   (headless) opens the real `MainWindow`, clicks the *INI style* radio item with a failing save and checks the bullet returns to *Friendly style*, which only the real toggle
   exercises.
+- **About dialogue and the build-stamped version:** `AssemblyProductInfoTests` (suffix stripping, `NormaliseVersion_StripsBuildMetadata`; the real Desktop assembly's version equals
+  the `<Version>` read from `Directory.Build.props` and has no `+`, its build date is within a day of the run and its copyright starts with `©`; an assembly without the stamped
+  attributes falls back and logs a warning, `MissingAttributes_FallBackAndWarn`), `AboutDialogViewModelTests` (the version line, `VersionLine_IgnoresCurrentCulture` under a
+  non-Gregorian calendar and different digits, the copyright passing through, the fixed copy), `AboutDialogViewTests` (headless: `OkButton_IsDefaultAndCancel`,
+  `LongCopy_WrapsWithinWindowWidth`, `Logo_IsPrimaryIconAt64`), `MainWindowViewModelAboutTests` (`OpenAboutCommand` shows the dialogue once; `VersionText` is `V` plus the
+  version) and `ProductNameTests.AboutDialog_Title_IsAboutZooTycoonNexus`. No test carries the app's own version number: fakes use other numbers (`2.4.6`).
 - **Editor behaviour added with the styles:** `IniEditorStyleHeadlessTests` also covers Page Up / Page Down on a Tab-focused slider, moving it 10 %
   (`FriendlySlider_PageKeysMoveTenPercent`). `IniEditorLayoutsTests` checks that the two layouts agree on each key's control and currency apart from the four volumes
   (`Layouts_AgreeOnEachKeysControlAndCurrencyExceptTheFourVolumes`), that the Friendly *Guests* and *Map size* groups carry a footnote (`FriendlyLayout_FootnotesSitOnTheirGroups`)
@@ -1927,7 +1954,7 @@ Planned phases (§13.3, §13.4), permanent non-goals (§3.2) and risks (§14.5) 
 |-------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
 | DW-21 | Installation grid: the Name cell clips without an ellipsis (`InstallationGridView.axaml:29`), and the sort is ordinal rather than culture-aware (`InstallationGridViewModel.cs:201`).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | PR #4                                |
 | DW-22 | **Decision pending.** Date formats differ: Info uses en-GB `d MMM yyyy HH:mm` (which renders September as "Sept"), while the General tab uses the current culture's `dd MMMM yyyy HH:mm`. Pick one convention.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | PR #5                                |
-| DW-23 | Centralise UI string literals. The version `V1.0.0` appears three times in `MainWindow.axaml`, status messages live in each view model, and the "Cannot Reload zoo.ini" title appears three times.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Maintainer's note 1; INI task review |
+| DW-23 | Centralise UI string literals. Status messages live in each view model, and the "Cannot Reload zoo.ini" title appears three times. (The version literal went in milestone 15.)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Maintainer's note 1; INI task review |
 | DW-24 | Add reusable controls for commonly configured stack and dock panels. `UniformStack` exists, but carries two open `TODO`s (`UniformStack.cs:38-39`). The spacing half of this item was delivered in milestone 11.1 (spacing tokens).                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Maintainer's notes 6–7; code `TODO`  |
 | DW-25 | Remaining view `TODO`s: "No Installation" monospace and "Open" bold (`OpenGameInstallationView.axaml:23`); whether a member can be private (`AddInstallationDialogViewModel.cs:39`); confirm the handler validates name and path (`AddInstallationDialogViewModel.cs:102`); show several form errors at once (`InstallationFormViewModel.cs:31`).                                                                                                                                                                                                                                                                                                                                                                 | Code `TODO`s                         |
 | DW-26 | Domain INI hygiene: `IniKeySpec` handles the `Scenario` kind only through its catch-alls; the Domain globally imports both `System.Diagnostics.CodeAnalysis` and `JetBrains.Annotations`; the `IniKeyValue.Value` doc says "trimmed" but inserted values are stored as given; the `Int` / `Str` registry helpers lack a role parameter, so reclassifying a key is not the one-line change the INI spec promises; `IniDriftDetector.Find` duplicates `GetValueOrDefault`.                                                                                                                                                                                                                                          | INI task review                      |

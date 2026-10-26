@@ -1953,6 +1953,50 @@ stays responsive rather than crashing.
 
 ---
 
+# About Dialogue
+
+## 1. About: Help → About shows the build's own version and build date, and every way of closing it works
+
+### Testing Strategy
+
+1. Build and start the launcher, then wait for it to boot into any state after the boot screen (the Help menu is hidden while booting).
+2. Open **Help → About**.
+3. Compare the version in the box with the status bar's version cell, and the build date with the date the Desktop project was last built (UTC).
+4. Close the box with **OK**, then open it again and close it with **Enter**, again with **Esc**, and again with the title-bar **✕**.
+5. Look at the main window's title bar.
+
+### Expected Outcome
+
+- The box opens modally, centred on the main window, titled `About Zoo Tycoon Nexus`, with the Zoo Tycoon Nexus icon in its title bar.
+- The header shows the 64 px logo, `Zoo Tycoon Nexus`, `Version <n.n.n> (build <yyyy.MM.dd>)` and the muted descriptor line, above an etched separator, the attribution line and
+  `© 2026 Justinian Erdmier`.
+- The version is the `<Version>` set in `Directory.Build.props` and matches the status bar's `V<n.n.n>` cell exactly. The build date is the date of the build itself, not today's
+  date when the box is opened and not a placeholder such as `0001.01.01`.
+- OK, Enter, Esc and ✕ each close the box and return to the main window.
+- The main window's title bar reads `Zoo Tycoon Nexus` with no version.
+
+### Actual Outcome
+
+> Explain what the actual outcome was, how it aligned and/or differed from the expected. If any changes were made, briefly highlight them here (simply to avoid writing multiple
+> "Actual Outcome" sections) and then go into more detail in the next section.
+
+### Changes
+
+> Walk through any changes made during testing to address any gaps between the expected and actual outcomes or improvements you made.
+
+### UI/UX
+
+#### Hi-Fi Mockup
+
+#### Actual Implementation
+
+#### Alignment
+
+### Shortcomings
+
+### Notes/Thoughts
+
+---
 # Notes & Future Tasks/Goals
 
 1. Abstract shared string literals used in the UI into a single constants/helper class so that everything can be easily updated in one single place and also eliminate duplication.
