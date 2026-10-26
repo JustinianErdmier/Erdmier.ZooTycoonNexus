@@ -8,6 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <AssemblyMetadata Include="BuildDateUtc" Value="$([System.DateTime]::UtcNow.ToString('yyyy-MM-dd'))" />
+    </ItemGroup>
+
+    <ItemGroup>
         <AvaloniaResource Include="Assets\**" />
     </ItemGroup>
 

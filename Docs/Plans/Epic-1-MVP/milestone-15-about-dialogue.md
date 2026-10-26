@@ -78,7 +78,7 @@ Avalonia.Headless.XUnit.
   - Fallbacks: version `0.0.0`, date `DateOnly.MinValue`, copyright `""`. Each logs one warning naming the missing attribute. The date is parsed with
     `DateOnly.ParseExact(value, "yyyy-MM-dd", CultureInfo.InvariantCulture)` through `TryParseExact`.
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
   - `NormaliseVersion_StripsBuildMetadata`, as an `[ Theory ]`: `1.2.3+abc123` → `1.2.3`; `1.2.3-beta.1+abc` → `1.2.3-beta.1`; `1.2.3` → `1.2.3`.
   - `DesktopAssembly_VersionMatchesDirectoryBuildProps`. Locate `Directory.Build.props` by walking up from `AppContext.BaseDirectory`, read `<Version>` with
     `XDocument`, then `new AssemblyProductInfo(typeof(App).Assembly, NullLogger<AssemblyProductInfo>.Instance).Version.ShouldBe(propsVersion)`. Add
@@ -88,13 +88,13 @@ Avalonia.Headless.XUnit.
   - `DesktopAssembly_CopyrightIsStamped`: `Copyright.ShouldStartWith("©")`.
   - `MissingAttributes_FallBackAndWarn`. Use an `AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("NoProductInfo"), AssemblyBuilderAccess.Run)` with a
     `RecordingLogger<AssemblyProductInfo>` (existing in `Tests/…/Common/`). It reports `0.0.0`, `DateOnly.MinValue` and `""`, logs warnings, and does not throw.
-- [ ] **Step 2: Run** `dotnet test Tests/Erdmier.ZooTycoonNexus.Desktop.Tests.Unit --filter FullyQualifiedName~AssemblyProductInfoTests`. Expected: the build fails,
+- [x] **Step 2: Run** `dotnet test Tests/Erdmier.ZooTycoonNexus.Desktop.Tests.Unit --filter FullyQualifiedName~AssemblyProductInfoTests`. Expected: the build fails,
   because `AssemblyProductInfo` is not defined.
-- [ ] **Step 3: Implement** the props, csproj, interface, class and registration above. Add `global using System.Reflection;` to the Desktop and test `GlobalUsings.cs`
+- [x] **Step 3: Implement** the props, csproj, interface, class and registration above. Add `global using System.Reflection;` to the Desktop and test `GlobalUsings.cs`
   if not already present.
-- [ ] **Step 4: Run** the same filter, then the Desktop and Architecture test projects. Expected: all pass. Build the Desktop project and confirm in the generated
+- [x] **Step 4: Run** the same filter, then the Desktop and Architecture test projects. Expected: all pass. Build the Desktop project and confirm in the generated
   `obj/…/Erdmier.ZooTycoonNexus.Desktop.AssemblyInfo.cs` that `BuildDateUtc` and `AssemblyCopyright` are present.
-- [ ] **Step 5: Commit**: `feat(✨): stamp the version, build date and copyright into the Desktop assembly`
+- [x] **Step 5: Commit**: `feat(✨): stamp the version, build date and copyright into the Desktop assembly`
 
 ---
 
