@@ -18,6 +18,7 @@
         <File Path="Docs/Ledgers/Epic-1-MVP/milestone-12-ledger.md" />
         <File Path="Docs/Ledgers/Epic-1-MVP/milestone-13-ledger.md" />
         <File Path="Docs/Ledgers/Epic-1-MVP/milestone-14-ledger.md" />
+        <File Path="Docs/Ledgers/Epic-1-MVP/milestone-15-ledger.md" />
     </Folder>
     <Folder Name="/Docs/Plans/" />
     <Folder Name="/Docs/Plans/Epic-1-MVP/">
@@ -38,6 +39,7 @@
         <File Path="Docs/Plans/Epic-1-MVP/milestone-12-ini-editor-display-style.md" />
         <File Path="Docs/Plans/Epic-1-MVP/milestone-13-game-config-tab-rename.md" />
         <File Path="Docs/Plans/Epic-1-MVP/milestone-14-zoo-tycoon-nexus-rename.md" />
+        <File Path="Docs/Plans/Epic-1-MVP/milestone-15-about-dialogue.md" />
     </Folder>
     <Folder Name="/Docs/Specs/">
         <File Path="Docs/Specs/1-zoo-tycoon-nexus-master-design.md" />
@@ -55,6 +57,7 @@
         <File Path="Docs/Specs/Epic-1-MVP/milestone-11-options-and-colour-cleanup-design.md" />
         <File Path="Docs/Specs/Epic-1-MVP/milestone-11.1-style-tokens-and-follow-ups-design.md" />
         <File Path="Docs/Specs/Epic-1-MVP/milestone-12-ini-editor-display-style-design.md" />
+        <File Path="Docs/Specs/Epic-1-MVP/milestone-15-about-dialogue-design.md" />
     </Folder>
     <Folder Name="/Docs/TestPlans/">
         <File Path="Docs/TestPlans/manual-end-to-end-tests.md" />

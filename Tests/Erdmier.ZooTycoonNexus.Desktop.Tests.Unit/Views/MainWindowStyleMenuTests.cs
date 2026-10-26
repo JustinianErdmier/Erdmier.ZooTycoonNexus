@@ -43,7 +43,8 @@ public sealed class MainWindowStyleMenuTests
                                             NullLogger<IniConfigTabViewModel>.Instance,
                                             NullLogger<IniEditorViewModel>.Instance,
                                             NullLogger<IniPlaceholderViewModel>.Instance,
-                                            styleState);
+                                            styleState,
+                                            Substitute.For<IProductInfo>());
 
         MainWindow window = new() { DataContext = viewModel };
 

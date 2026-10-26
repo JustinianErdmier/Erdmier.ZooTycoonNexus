@@ -67,6 +67,9 @@ public interface IDialogService
     /// <summary>Opens the modal Options dialogue (<c>File → Options…</c>): the startup preference and the close-after-launch setting.</summary>
     Task ShowOptionsAsync();
 
+    /// <summary>Shows the modal About dialogue.</summary>
+    Task ShowAboutAsync();
+
     /// <summary>Shows a modal error message box owned by the active window. With no owner window, shows a non-modal box and returns without waiting.</summary>
     /// <param name="title">The window title.</param>
     /// <param name="message">The message, shown verbatim.</param>

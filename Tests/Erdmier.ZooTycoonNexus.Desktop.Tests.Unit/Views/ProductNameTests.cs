@@ -14,7 +14,7 @@ public sealed class ProductNameTests
     {
         MainWindow window = new();
 
-        window.Title.ShouldBe("  Zoo Tycoon Nexus  V1.0.0");
+        window.Title.ShouldBe("  Zoo Tycoon Nexus");
     }
 
     [ AvaloniaFact ]
@@ -23,5 +23,13 @@ public sealed class ProductNameTests
         SaveChangesPromptView view = new() { DataContext = new SaveChangesPromptViewModel() };
 
         view.Title.ShouldBe("  Zoo Tycoon Nexus");
+    }
+
+    [ AvaloniaFact ]
+    public void AboutDialog_Title_IsAboutZooTycoonNexus()
+    {
+        AboutDialogView view = new() { DataContext = new AboutDialogViewModel() };
+
+        view.Title.ShouldBe("  About Zoo Tycoon Nexus");
     }
 }

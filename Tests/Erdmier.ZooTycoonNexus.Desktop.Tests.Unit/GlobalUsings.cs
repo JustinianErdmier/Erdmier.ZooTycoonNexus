@@ -1,4 +1,5 @@
 global using System.Globalization;
+global using System.Reflection;
 
 global using Erdmier.ZooTycoonNexus.Application.Boot;
 global using Erdmier.ZooTycoonNexus.Application.Common.Models;

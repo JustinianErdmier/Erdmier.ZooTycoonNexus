@@ -16,6 +16,14 @@
                 Value="32" />
     </Style>
 
+    <!-- The brand logo shown at the head of the About dialogue. -->
+    <Style Selector="Image.IconLogo">
+        <Setter Property="Width"
+                Value="64" />
+        <Setter Property="Height"
+                Value="64" />
+    </Style>
+
     <Style Selector="Image.IconSmall">
         <Setter Property="Width"
                 Value="16" />

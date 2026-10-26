@@ -1,5 +1,3 @@
-using System.Reflection;
-
 using Avalonia.Controls;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
@@ -131,6 +129,7 @@ public sealed class ViewLoadTests
                                        NullLogger<IniConfigTabViewModel>.Instance,
                                        NullLogger<IniEditorViewModel>.Instance,
                                        NullLogger<IniPlaceholderViewModel>.Instance,
-                                       new IniEditorStyleState());
+                                       new IniEditorStyleState(),
+                                       Substitute.For<IProductInfo>());
     }
 }

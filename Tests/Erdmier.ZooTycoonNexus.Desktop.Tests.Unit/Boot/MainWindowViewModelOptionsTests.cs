@@ -17,7 +17,8 @@ public sealed class MainWindowViewModelOptionsTests
                                          NullLogger<IniConfigTabViewModel>.Instance,
                                          NullLogger<IniEditorViewModel>.Instance,
                                          NullLogger<IniPlaceholderViewModel>.Instance,
-                                         new IniEditorStyleState());
+                                         new IniEditorStyleState(),
+                                         Substitute.For<IProductInfo>());
 
         await window.OpenOptionsCommand.ExecuteAsync(parameter: null);
 

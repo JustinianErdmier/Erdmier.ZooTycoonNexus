@@ -131,6 +131,7 @@ Reuse these wherever you can. The shared styles live in `Styles/Controls.axaml`;
 |----------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
 | `Button.DialogButton`                              | A dialogue push button: `MinWidth` 75, the Win95/98 minimum command-button width.                                   |
 | `Image.IconLarge` / `Image.IconSmall`              | A 32 px or 16 px icon. Each `Image` also sets `RenderOptions.BitmapInterpolationMode="None"` itself (see below).    |
+| `Image.IconLogo`                                   | A 64 px brand logo: the About dialogue's header (`ZTL_Primary-Icon.png`).                                           |
 | `Image.IconBesideBody` / `Image.IconBesideMessage` | The right margin that completes `GapIconBody` or `GapIconMessage` beside the text (§1.4). Combine with `IconLarge`. |
 | `TextBlock.MutedText`                              | Secondary text: `ForegroundMuted` at `FontSizeBase`. The one method for fading text (§7).                           |
 | `DataGrid.InertHeaders`                            | Plain-caption headers: no press, sort or reorder. Also stops resizing; pair with `CanUserResizeColumns="False"`.    |
@@ -138,8 +139,9 @@ Reuse these wherever you can. The shared styles live in `Styles/Controls.axaml`;
 | `StatusBadge` *(not built)*                        | Inline pill: `OK`, `Err`, `Warn` or `Neutral`.                                                                      |
 | `Etched` *(not built)*                             | 1-px horizontal divider with the classic two-line shadow.                                                           |
 
-Icons stay pixel-crisp (16 px art shown at 32 px is pixel-doubled, not smoothed). Avalonia 11.3 cannot style `RenderOptions.BitmapInterpolationMode`, so every icon
-`Image` sets it to `None` itself, and `Icons_DrawWithoutSmoothing` enforces that.
+The Win95 icons (`IconLarge` / `IconSmall`) stay pixel-crisp (16 px art shown at 32 px is pixel-doubled, not smoothed). Avalonia 11.3 cannot style
+`RenderOptions.BitmapInterpolationMode`, so every such icon `Image` sets it to `None` itself, and `Icons_DrawWithoutSmoothing` enforces that. The brand logo (`IconLogo`) is a
+downscale of a larger PNG and stays smoothed.
 
 `GroupBox` and the icon styles together compose the "icon header" pattern in §4.
 
@@ -250,7 +252,7 @@ Used by the Status / Display / INI status / Fix-EXE / Fix-INI / Auto-locate-trai
 The icons are the Windows 95 set committed under `Source/Erdmier.ZooTycoonNexus.Desktop/Assets/Win95Icons/`, referenced from XAML as
 `/Assets/Win95Icons/<name>` (an `Image Source=` or a window `Icon=`). The file name carries the artwork's native size (`ok32.gif`, `foldercatalog16.ico`), but the
 `Height` / `Width` on the `Image` decide the rendered size. The launcher's own mark lives in `Assets/BrandIcons/` and `Assets/Images/`. The table maps each site to the
-file its view uses today; a site whose view does not exist yet is marked *(not built)* and has no file yet.
+file its view uses today.
 
 | Site                                               | Icon                                        | Notes                                                         |
 |----------------------------------------------------|---------------------------------------------|---------------------------------------------------------------|
@@ -278,7 +280,8 @@ file its view uses today; a site whose view does not exist yet is marked *(not b
 | Game Config tab · read-only strip                  | `warning32.gif`                             | Drawn at 16 px                                                |
 | Game Config tab placeholder (disabled)             | *(no icon)*                                 | Muted helper text only                                        |
 | Options · title bar                                | `controls32.ico`                            |                                                               |
-| About · title bar *(not built)*                    | *(none chosen)*                             | No view yet; body keeps the app logo                          |
+| About · title bar                                  | `BrandIcons/ZTL_Title-Icon.png`             | Same app-owned mark as the main window                        |
+| About · body                                       | `BrandIcons/ZTL_Primary-Icon.png`           | Drawn at 64 px (`Image.IconLogo`)                             |
 
 Every `ClassicWindow` title starts with two spaces so the text clears the title-bar icon (Classic.Avalonia leaves no gap), including titles bound from a view model.
 

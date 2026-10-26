@@ -191,5 +191,6 @@ public sealed class MainWindowViewModelGuardTests
                NullLogger<IniConfigTabViewModel>.Instance,
                NullLogger<IniEditorViewModel>.Instance,
                NullLogger<IniPlaceholderViewModel>.Instance,
-               new IniEditorStyleState());
+               new IniEditorStyleState(),
+               Substitute.For<IProductInfo>());
 }
