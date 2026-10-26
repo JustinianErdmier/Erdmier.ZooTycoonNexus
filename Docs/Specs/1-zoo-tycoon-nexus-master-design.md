@@ -41,7 +41,7 @@
 | 1.16    | 22 October 2026   | Justinian | Milestone 12 (INI editor display style; spec `milestone-12-ini-editor-display-style-design.md`). The INI Config editor gains two display styles chosen in Options: a Friendly style (the default) that groups settings into eight pages by purpose with plain labels, meaning-based values and volume sliders, and an INI style that shows `zoo.ini` literally (the inverted `noMenuMusic` included). §5.1 / §5.2 / §5.5 / §6.2 add `LauncherSettings.IniEditorStyle` and the `IniEditorStyle` SmartEnum; §9.3 gains §9.3.3 *Display styles*; §9.7 makes the diff follow the style; §9.8 adds the *INI editor* group box, which applies on `OK`; §13.2 names both styles. Follow-ups: a **View** menu (*Config layout* ▸ *Friendly style* / *INI style*) switches the style from the main window (§9.10, §9.3.3); the Friendly cash keys describe the new-zoo starting-cash picker; the language codes sit on their own line; the Restore dialogue's Friendly key column uses the system face (§9.7). |
 | 1.17    | 23 October 2026   | Justinian | Milestone 13 (Game Config tab rename). The INI Config tab is renamed Game Config for players throughout (§2.2, §3.1, §5.1, §7.1, §7.2, §7.3–§7.5, §9, §9.1, §9.3, §9.3.1, §9.3.3, §9.8 Options copy, whose group box becomes *Config editor*, §9.12, §11.4, §13.2, §13.5.1, §14.5, §15), and its documented access key moves to Alt-C. §9.3 records why the code identifiers keep `IniConfig`. |
 | 1.18    | 23 October 2026   | Justinian | Milestone 14 renames the application Zoo Tycoon Nexus: the solution, projects and namespaces become `Erdmier.ZooTycoonNexus.*`, and storage moves to `%LOCALAPPDATA%\ZooTycoonNexus\` with `Nexus.db` / `Nexus.log` and no migration of the old folder. This document moves to `1-zoo-tycoon-nexus-master-design.md`. Sections changed: the title, the document control table and §1.1–§1.2 (the name; "launcher" stays the ordinary word for the role, and the `Launcher*` code names keep it), §2.4, §3.1, §4.2, §4.5, §4.7, §5.5, §6.1, §6.2, §6.4, §7.1.1, §7.2.4, §9, §9.1 (title bar `Zoo Tycoon Nexus V<version>`), §9.9 (`About Zoo Tycoon Nexus`), §9.10, §10, §11.1–§11.5 and §13.2. |
-| 1.19    | 25 October 2026   | Justinian | Milestone 15 (About dialogue; spec `milestone-15-about-dialogue-design.md`). Help → About opens the §9.9 dialogue. The release number is set once, in `Directory.Build.props`, and read back at runtime through `IProductInfo`, so the title bar drops the version and the status bar and the About box cannot disagree with the build or with each other. Sections changed: the document control table, §9.1 (title bar `Zoo Tycoon Nexus`, status-bar version label), §9.9 (the dialogue as built), §9.10 (the About row and `OpenAboutCommand`), §11.4 (the new test classes) and §13.5 (DW-23 loses its version half). |
+| 1.19    | 25 October 2026   | Justinian | Milestone 15 (About dialogue; spec `milestone-15-about-dialogue-design.md`). Help → About opens the §9.9 dialogue. The release number is set once, in `Directory.Build.props`, and read back at runtime through `IProductInfo`, so the title bar drops the version and the status bar and the About box cannot disagree with the build or with each other. Sections changed: the document control table, §9.1 (title bar `Zoo Tycoon Nexus`, status-bar version label), §9.2.2 (the folder tree), §9.9 (the dialogue as built), §9.10 (the About row and `OpenAboutCommand`), §11.4 (the new test classes) and §13.5 (DW-23 loses its version half). |
 
   
 ---  
@@ -1352,7 +1352,7 @@ Desktop/
 │   ├── Tabs/                              Layer 2: GeneralTabView, IniConfigTabView  
 │   ├── IniConfig/                         IniEditorView, IniSectionView, IniPlaceholderView (+ Fields/)  
 │   ├── Common/                            Shared controls: InstallationGridView, InstallationFormView  
-│   ├── Dialogs/                           Modal UserControls (Installation Manager, Add, Edit, Delete, Info, Fix, Options, confirmation and error prompts, launch error)  
+│   ├── Dialogs/                           Modal UserControls (Installation Manager, Add, Edit, Delete, Info, Fix, Options, About, Restore Previous INI, confirmation and error prompts, launch error)  
 │   └── Layout/                            Layout primitives (UniformStack)  
 ├── ViewModels/                            Mirrors Views/ (Boot, Tabs, IniConfig, Common, Dialogs); every *View has a corresponding *ViewModel.  
 ├── Converters/                            Value converters and ApplicationBrushLookup (state → named brush; view models hold no brushes).  
@@ -1362,7 +1362,7 @@ Desktop/
 │   ├── Typography.axaml                   Font families, sizes and weights (conventions §1.3).  
 │   ├── Spacing.axaml                      Spacing tokens in pixels, plus the values derived from them (conventions §1.4).  
 │   ├── SpaceExtension.cs                  Markup extension: builds a Thickness from token names.  
-│   └── Controls.axaml                     Shared control styles: DialogButton, IconLarge / IconSmall, MutedText, InertHeaders (conventions §2).  
+│   └── Controls.axaml                     Shared control styles: DialogButton, IconLarge / IconSmall / IconLogo, MutedText, InertHeaders (conventions §2).  
 └── Assets/                                Brand icons, images and Win95 icons.  
 ```  
 
@@ -1607,10 +1607,13 @@ has no commands. `VersionLine` formats the date as `yyyy.MM.dd` in the invariant
 **Where the numbers come from.** `IProductInfo` (`Desktop.Composition`; version, UTC build date and copyright) is implemented by `AssemblyProductInfo`, a singleton that reads the
 Desktop assembly's attributes once, at construction. The release number is set in one place, `<Version>` in `Directory.Build.props`, which also sets `<Authors>` and the fixed
 `<Copyright>` (`© 2026 Justinian Erdmier`, the year of first publication, not computed from the build year). The Desktop project stamps the build date itself, as an
-`AssemblyMetadata` item with key `BuildDateUtc` (the UTC date of the build, `yyyy-MM-dd`; date-only so a deterministic build changes at most once a day). `AssemblyProductInfo`
-strips any `+<metadata>` suffix the SDK appends to the informational version (a source-revision hash), keeps a pre-release label such as `-beta.1`, and never throws: a missing
-attribute falls back to `0.0.0`, `DateOnly.MinValue` or an empty copyright and logs a warning. Both status-bar version cells use the same source (§9.1);
-the main window title carries no version.
+`AssemblyMetadata` item with key `BuildDateUtc` (the UTC date of the build, `ToString('s').Substring(0, 10)`, an invariant-culture `yyyy-MM-dd`; date-only so a deterministic build
+changes at most once a day). `AssemblyProductInfo` strips any `+<metadata>` suffix the SDK appends to the informational version (a source-revision hash), keeps a pre-release label
+such as `-beta.1`, and never throws: a missing attribute falls back to `0.0.0`, `DateOnly.MinValue` or an empty copyright and logs a warning. Both status-bar version cells use the
+same source (§9.1); the main window title carries no version.
+
+The prototype's About dialogue is trimmed on purpose: the personal note, the Ko-fi button, the signature, the large `ZTL_Main-Logo`, the FamFamFam Silk credit and the `O` access key on
+OK are all left out (milestone 15, decision 1, C7 and C9).
 
 ### 9.10 Menu structure
 

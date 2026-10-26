@@ -150,10 +150,10 @@ These go in the ledger as rulings when the plan runs. Each is cheap to reverse.
 - **C7:** the attribution and copyright copy as written in §4.5. The prototype's FamFamFam Silk icon credit is dropped, because the launcher draws
   Windows 95 icons, not Silk. The prototype's large centred main logo (`ZTL_Main-Logo.png`) under the separator is dropped too:
   decision 1 keeps the box to version and credits, and the 64 px icon already carries the brand.
+- **C8:** `IProductInfo` lives in `Desktop.Composition` and is not an Application port, because nothing below the Desktop layer needs it.
 - **C9:** `OK` has no access key (the prototype marks `O`). As both default and cancel button, Enter and Esc already reach it, and §9.10 keeps access keys rare.
 - **C10:** `AssemblyProductInfo` takes an `ILogger<AssemblyProductInfo>` for its fallback warning. The real-assembly test allows the build date to be up to one day before the
   test run (UTC), so a build just before midnight still passes.
-- **C8:** `IProductInfo` lives in `Desktop.Composition` and is not an Application port, because nothing below the Desktop layer needs it.
 
 ## 8. Left to the builder
 
