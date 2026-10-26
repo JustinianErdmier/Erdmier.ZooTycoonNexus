@@ -220,7 +220,7 @@ Avalonia.Headless.XUnit.
 
 ## Verification
 
-- [ ] Clean build with 0 warnings; every test project passes.
-- [ ] `Directory.Build.props` is the only place the release number is set; the Task 3 search finds nothing under `Source/` but the designer constructor.
+- [x] Clean build with 0 warnings; every test project passes.
+- [x] `Directory.Build.props` is the only place the release number is set; the Task 3 search finds nothing under `Source/` but the designer constructor.
 - [x] Task 5 checked in the running app, or recorded in the ledger as left to the maintainer.
-- [ ] Final whole-branch review and fix waves per CLAUDE.md; then push and open the pull request.
+- [x] Final whole-branch review and fix waves per CLAUDE.md; then push and open the pull request.
