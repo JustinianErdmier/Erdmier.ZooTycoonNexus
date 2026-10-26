@@ -139,8 +139,9 @@ Reuse these wherever you can. The shared styles live in `Styles/Controls.axaml`;
 | `StatusBadge` *(not built)*                        | Inline pill: `OK`, `Err`, `Warn` or `Neutral`.                                                                      |
 | `Etched` *(not built)*                             | 1-px horizontal divider with the classic two-line shadow.                                                           |
 
-Icons stay pixel-crisp (16 px art shown at 32 px is pixel-doubled, not smoothed). Avalonia 11.3 cannot style `RenderOptions.BitmapInterpolationMode`, so every icon
-`Image` sets it to `None` itself, and `Icons_DrawWithoutSmoothing` enforces that.
+The Win95 icons (`IconLarge` / `IconSmall`) stay pixel-crisp (16 px art shown at 32 px is pixel-doubled, not smoothed). Avalonia 11.3 cannot style
+`RenderOptions.BitmapInterpolationMode`, so every such icon `Image` sets it to `None` itself, and `Icons_DrawWithoutSmoothing` enforces that. The brand logo (`IconLogo`) is a
+downscale of a larger PNG and stays smoothed.
 
 `GroupBox` and the icon styles together compose the "icon header" pattern in §4.
 

@@ -1609,7 +1609,8 @@ Desktop assembly's attributes once, at construction. The release number is set i
 `<Copyright>` (`© 2026 Justinian Erdmier`, the year of first publication, not computed from the build year). The Desktop project stamps the build date itself, as an
 `AssemblyMetadata` item with key `BuildDateUtc` (the UTC date of the build, `yyyy-MM-dd`; date-only so a deterministic build changes at most once a day). `AssemblyProductInfo`
 strips any `+<metadata>` suffix the SDK appends to the informational version (a source-revision hash), keeps a pre-release label such as `-beta.1`, and never throws: a missing
-attribute falls back to `0.0.0`, `DateOnly.MinValue` or an empty copyright and logs a warning. The main window title and both status-bar cells use the same source (§9.1).
+attribute falls back to `0.0.0`, `DateOnly.MinValue` or an empty copyright and logs a warning. Both status-bar version cells use the same source (§9.1);
+the main window title carries no version.
 
 ### 9.10 Menu structure
 

@@ -1997,13 +1997,14 @@ stays responsive rather than crashing.
 ### Notes/Thoughts
 
 ---
+
 # Notes & Future Tasks/Goals
 
 1. Abstract shared string literals used in the UI into a single constants/helper class so that everything can be easily updated in one single place and also eliminate duplication.
    For example, the version number in the title bar and the two status bar versions are hardcoded and duplicated when it could be read from a single source of truth. Similar thing
    for the status messages; they're not duplicated, but you as of right now, every view model is responsible for defining the appropriate strings. If all the strings were in one
    class, the view models could still be responsible for setting/passing along the info. However, the source text would be in one, central location, meaning that the devs don't
-   have to hunt down string literals just to update or add.
+   have to hunt down string literals just to update or add. *(Version half done in milestone 15: the version now comes from the build and the title bar no longer shows it.)*
 2. The "Auto-locate trail" group box on the "No Installation Found" screen needs to be dynamically populated. It's currently hardcoded.
     1. The boot command result currently only takes the path for a located candidate. However, it could be given the `LocatedDirectory` record itself, which not only has the path,
        but also the list of all the checked locations and status.
