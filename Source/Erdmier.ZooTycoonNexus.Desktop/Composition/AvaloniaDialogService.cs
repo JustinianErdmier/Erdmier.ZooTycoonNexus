@@ -361,6 +361,26 @@ internal sealed class AvaloniaDialogService : IDialogService
     }
 
     /// <inheritdoc />
+    public async Task ShowAboutAsync()
+    {
+        Window? owner = ResolveOwner();
+
+        if (owner is null)
+        {
+            return;
+        }
+
+        AboutDialogViewModel vm = _services.GetRequiredService<AboutDialogViewModel>();
+
+        AboutDialogView view = new()
+        {
+            DataContext = vm
+        };
+
+        await view.ShowDialog(owner);
+    }
+
+    /// <inheritdoc />
     public async Task ShowErrorAsync(string title, string message)
     {
         ErrorMessageView view = new()

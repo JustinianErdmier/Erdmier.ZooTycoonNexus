@@ -14,7 +14,7 @@ public sealed class ProductNameTests
     {
         MainWindow window = new();
 
-        window.Title.ShouldBe("  Zoo Tycoon Nexus  V1.0.0");
+        window.Title.ShouldBe("  Zoo Tycoon Nexus");
     }
 
     [ AvaloniaFact ]

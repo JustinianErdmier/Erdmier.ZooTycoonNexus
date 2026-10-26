@@ -49,6 +49,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     /// <param name="iniEditorLogger">Logger passed on to the INI editor of each <see cref="PlayViewModel" />.</param>
     /// <param name="iniPlaceholderLogger">Logger passed on to the Game Config tab's No INI placeholder of each <see cref="PlayViewModel" />.</param>
     /// <param name="styleState">The shared INI editor style, passed on to the Game Config tab of each <see cref="PlayViewModel" />.</param>
+    /// <param name="productInfo">The build-stamped product facts; supplies the version shown in the status bar.</param>
     public MainWindowViewModel(IMediator                          mediator,
                                IApplicationLifecycle              lifecycle,
                                IDialogService                     dialogs,
@@ -59,7 +60,8 @@ public sealed partial class MainWindowViewModel : ViewModelBase
                                ILogger<IniConfigTabViewModel>     iniTabLogger,
                                ILogger<IniEditorViewModel>        iniEditorLogger,
                                ILogger<IniPlaceholderViewModel>   iniPlaceholderLogger,
-                               IIniEditorStyleState               styleState)
+                               IIniEditorStyleState               styleState,
+                               IProductInfo                       productInfo)
     {
         _mediator   = mediator;
         _lifecycle  = lifecycle;
@@ -73,6 +75,7 @@ public sealed partial class MainWindowViewModel : ViewModelBase
         _iniEditorLogger      = iniEditorLogger;
         _iniPlaceholderLogger = iniPlaceholderLogger;
         _styleState           = styleState;
+        VersionText           = $"V{productInfo.Version}";
 
         // The view model lives as long as the application, as does the style state, so the subscription is never released.
         _styleState.StyleChanged += (_, _) => RaiseStyleMenuChecks();
@@ -115,6 +118,9 @@ public sealed partial class MainWindowViewModel : ViewModelBase
 
     /// <summary>The main window's width in device-independent pixels: narrow whilst booting, wide once booted. Derived from <see cref="IsBooting" /> so the two can never disagree.</summary>
     public double WindowWidth => IsBooting ? BootingWindowWidth : BootedWindowWidth;
+
+    /// <summary>The version shown in the status bar: <c>V</c> followed by the build-stamped product version.</summary>
+    public string VersionText { get; }
 
     /// <summary>Set once the user has confirmed leaving unsaved edits, so the window's close handler does not ask a second time.</summary>
     public bool IsCloseConfirmed { get; set; }
@@ -207,6 +213,11 @@ public sealed partial class MainWindowViewModel : ViewModelBase
     // changes nothing about the open installation.
     [ RelayCommand ]
     private Task OpenOptionsAsync() => _dialogs.ShowOptionsAsync();
+
+    // Help → "About": opens the modal About dialogue. Available in every booted state (the menu is hidden whilst booting) and needs no unsaved-edit guard, since it changes
+    // nothing about the open installation.
+    [ RelayCommand ]
+    private Task OpenAboutAsync() => _dialogs.ShowAboutAsync();
 
     /// <summary>
     ///     View → Config layout → Friendly style: whether the menu item is checked. Bound two-way because the radio item writes its own check on click; it follows the INI editor

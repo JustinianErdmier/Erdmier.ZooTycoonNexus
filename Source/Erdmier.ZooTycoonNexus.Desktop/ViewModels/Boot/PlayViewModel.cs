@@ -284,5 +284,7 @@ file sealed class NoOpDialogService : IDialogService
 
     public Task ShowOptionsAsync() => Task.CompletedTask;
 
+    public Task ShowAboutAsync() => Task.CompletedTask;
+
     public Task ShowErrorAsync(string title, string message) => Task.CompletedTask;
 }

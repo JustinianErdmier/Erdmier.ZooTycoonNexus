@@ -19,7 +19,8 @@ public sealed class MainWindowViewModelStyleMenuTests
                NullLogger<IniConfigTabViewModel>.Instance,
                NullLogger<IniEditorViewModel>.Instance,
                NullLogger<IniPlaceholderViewModel>.Instance,
-               _styleState);
+               _styleState,
+               Substitute.For<IProductInfo>());
 
     private void ReturnsStored(LauncherOptions options)
         => _mediator.Send(Arg.Any<GetLauncherOptionsQuery>(), Arg.Any<CancellationToken>())

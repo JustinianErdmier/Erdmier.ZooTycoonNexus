@@ -161,13 +161,13 @@ Avalonia.Headless.XUnit.
     - gains a `[ RelayCommand ] private Task OpenAboutAsync() => _dialogs.ShowAboutAsync();`, generating `OpenAboutCommand`, with a comment in the style of
       `OpenOptionsAsync`'s.
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
   - `OpenAboutCommand_ShowsTheAboutDialogueOnce`, modelled on `OpenOptionsCommand_ShowsTheOptionsDialogueOnce`.
   - `VersionText_IsVPlusTheProductVersion`: a substitute reporting `2.4.6` gives `V2.4.6`.
   - `MainWindow_Title_NamesZooTycoonNexus`: the expectation changes to `"  Zoo Tycoon Nexus"`.
   - The six existing constructions pass `Substitute.For<IProductInfo>()`.
-- [ ] **Step 2: Run** the Desktop test project. Expected: the build fails.
-- [ ] **Step 3: Implement**:
+- [x] **Step 2: Run** the Desktop test project. Expected: the build fails.
+- [x] **Step 3: Implement**:
   - `AvaloniaDialogService.ShowAboutAsync` follows `ShowOptionsAsync` without `InitialiseAsync`: resolve the owner, returning if it is null. Then resolve
     `AboutDialogViewModel` from DI, and `await new AboutDialogView { DataContext = vm }.ShowDialog(owner)`.
   - The no-op services return `Task.CompletedTask`.
@@ -176,10 +176,10 @@ Avalonia.Headless.XUnit.
     - line 64 becomes `<MenuItem Header="Contents" /> <Separator /> <MenuItem Header="About" Command="{Binding OpenAboutCommand}" />`, still one line (R11);
     - lines 79 and 96 become `<TextBlock Text="{Binding VersionText}" />`;
     - the file stays at 100 lines.
-- [ ] **Step 4: Run** every test project, then the full solution build. Expected: all pass, 0 warnings. Then search `Source/` (excluding `bin/` and `obj/`) for
+- [x] **Step 4: Run** every test project, then the full solution build. Expected: all pass, 0 warnings. Then search `Source/` (excluding `bin/` and `obj/`) for
   `(?<![\d.])1\.0\.0(?![\d.])` in `*.axaml` and `*.cs`, for example `Get-ChildItem Source -Recurse -Include *.axaml,*.cs | Where-Object FullName -notmatch '\\(bin|obj)\\' |
   Select-String '(?<![\d.])1\.0\.0(?![\d.])'`. It must list only the Task 2 designer constructor.
-- [ ] **Step 5: Commit**: `feat(✨): open About from the Help menu and read the version from the build`
+- [x] **Step 5: Commit**: `feat(✨): open About from the Help menu and read the version from the build`
 
 ---
 
