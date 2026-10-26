@@ -3,6 +3,7 @@ using System.Xml.Linq;
 
 namespace Erdmier.ZooTycoonNexus.Desktop.Tests.Unit.Composition;
 
+/// <summary>Verifies how <see cref="AssemblyProductInfo"/> reads, normalises and falls back on the assembly's version, build date and copyright.</summary>
 public sealed class AssemblyProductInfoTests
 {
     [ Theory ]
@@ -10,7 +11,7 @@ public sealed class AssemblyProductInfoTests
     [ InlineData("1.2.3-beta.1+abc", "1.2.3-beta.1") ]
     [ InlineData("1.2.3", "1.2.3") ]
     public void NormaliseVersion_StripsBuildMetadata(string informationalVersion, string expected)
-        => AssemblyProductInfo.NormaliseVersion(informationalVersion).ShouldBe(expected);
+        => AssemblyProductInfo.NormaliseVersion(informationalVersion).ShouldBe(expected: expected);
 
     [ Fact ]
     public void DesktopAssembly_VersionMatchesDirectoryBuildProps()
@@ -19,8 +20,8 @@ public sealed class AssemblyProductInfoTests
 
         var info = new AssemblyProductInfo(typeof(App).Assembly, NullLogger<AssemblyProductInfo>.Instance);
 
-        info.Version.ShouldBe(propsVersion);
-        info.Version.ShouldNotContain("+");
+        info.Version.ShouldBe(expected: propsVersion);
+        info.Version.ShouldNotContain(expected: "+");
     }
 
     [ Fact ]
@@ -39,21 +40,21 @@ public sealed class AssemblyProductInfoTests
     {
         var info = new AssemblyProductInfo(typeof(App).Assembly, NullLogger<AssemblyProductInfo>.Instance);
 
-        info.Copyright.ShouldStartWith("©");
+        info.Copyright.ShouldStartWith(expected: "©");
     }
 
     [ Fact ]
     public void MissingAttributes_FallBackAndWarn()
     {
-        var assembly = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("NoProductInfo"), AssemblyBuilderAccess.Run);
+        var assembly = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName(assemblyName: "NoProductInfo"), AssemblyBuilderAccess.Run);
         var logger = new RecordingLogger<AssemblyProductInfo>();
 
         var info = new AssemblyProductInfo(assembly, logger);
 
-        info.Version.ShouldBe("0.0.0");
-        info.BuildDateUtc.ShouldBe(DateOnly.MinValue);
-        info.Copyright.ShouldBe("");
-        logger.Entries.ShouldNotBeEmpty();
+        info.Version.ShouldBe(expected: "0.0.0");
+        info.BuildDateUtc.ShouldBe(expected: DateOnly.MinValue);
+        info.Copyright.ShouldBe(expected: "");
+        logger.Entries.Count.ShouldBe(expected: 3);
         logger.Entries.ShouldAllBe(entry => entry.Level == LogLevel.Warning);
     }
 

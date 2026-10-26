@@ -1,5 +1,6 @@
 namespace Erdmier.ZooTycoonNexus.Desktop.Tests.Unit.Boot;
 
+/// <summary>Verifies the main window's Help → About command and its build-derived version text.</summary>
 public sealed class MainWindowViewModelAboutTests
 {
     [ Fact ]
@@ -23,7 +24,7 @@ public sealed class MainWindowViewModelAboutTests
 
         MainWindowViewModel window = Create(Substitute.For<IDialogService>(), productInfo);
 
-        window.VersionText.ShouldBe("V2.4.6");
+        window.VersionText.ShouldBe(expected: "V2.4.6");
     }
 
     private static MainWindowViewModel Create(IDialogService dialogs, IProductInfo productInfo)

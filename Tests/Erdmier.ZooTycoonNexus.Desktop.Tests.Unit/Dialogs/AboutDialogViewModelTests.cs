@@ -1,5 +1,6 @@
 namespace Erdmier.ZooTycoonNexus.Desktop.Tests.Unit.Dialogs;
 
+/// <summary>Verifies the copy and version line the About dialogue shows.</summary>
 public sealed class AboutDialogViewModelTests
 {
     private static IProductInfo ProductInfo(string version = "2.4.6", string copyright = "© 2027 Someone Else")
@@ -7,7 +8,7 @@ public sealed class AboutDialogViewModelTests
         IProductInfo productInfo = Substitute.For<IProductInfo>();
 
         productInfo.Version.Returns(version);
-        productInfo.BuildDateUtc.Returns(new DateOnly(2027, 1, 9));
+        productInfo.BuildDateUtc.Returns(new DateOnly(year: 2027, month: 1, day: 9));
         productInfo.Copyright.Returns(copyright);
 
         return productInfo;
@@ -18,7 +19,7 @@ public sealed class AboutDialogViewModelTests
     {
         AboutDialogViewModel viewModel = new(ProductInfo());
 
-        viewModel.VersionLine.ShouldBe("Version 2.4.6 (build 2027.01.09)");
+        viewModel.VersionLine.ShouldBe(expected: "Version 2.4.6 (build 2027.01.09)");
     }
 
     [ Theory ]
@@ -34,7 +35,7 @@ public sealed class AboutDialogViewModelTests
 
             AboutDialogViewModel viewModel = new(ProductInfo());
 
-            viewModel.VersionLine.ShouldBe("Version 2.4.6 (build 2027.01.09)");
+            viewModel.VersionLine.ShouldBe(expected: "Version 2.4.6 (build 2027.01.09)");
         }
         finally
         {
@@ -45,9 +46,9 @@ public sealed class AboutDialogViewModelTests
     [ Fact ]
     public void Copyright_PassesThrough()
     {
-        AboutDialogViewModel viewModel = new(ProductInfo(copyright: "© 2027 Someone Else"));
+        AboutDialogViewModel viewModel = new(ProductInfo(copyright: "© 2030 Another Author"));
 
-        viewModel.Copyright.ShouldBe("© 2027 Someone Else");
+        viewModel.Copyright.ShouldBe(expected: "© 2030 Another Author");
     }
 
     [ Fact ]
@@ -55,8 +56,8 @@ public sealed class AboutDialogViewModelTests
     {
         AboutDialogViewModel viewModel = new(ProductInfo());
 
-        viewModel.ProductName.ShouldBe("Zoo Tycoon Nexus");
-        viewModel.Description.ShouldBe("A native Windows launcher and configuration tool for Zoo Tycoon (2001).");
-        viewModel.Attribution.ShouldBe("Built with .NET 10, Avalonia 11.3, Classic.Avalonia, SQLite via EF Core and Serilog.");
+        viewModel.ProductName.ShouldBe(expected: "Zoo Tycoon Nexus");
+        viewModel.Description.ShouldBe(expected: "A native Windows launcher and configuration tool for Zoo Tycoon (2001).");
+        viewModel.Attribution.ShouldBe(expected: "Built with .NET 10, Avalonia 11.3, Classic.Avalonia, SQLite via EF Core and Serilog.");
     }
 }

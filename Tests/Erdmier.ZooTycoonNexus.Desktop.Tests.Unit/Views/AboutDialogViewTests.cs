@@ -16,7 +16,7 @@ public sealed class AboutDialogViewTests
         IProductInfo productInfo = Substitute.For<IProductInfo>();
 
         productInfo.Version.Returns("2.4.6");
-        productInfo.BuildDateUtc.Returns(new DateOnly(2027, 1, 9));
+        productInfo.BuildDateUtc.Returns(new DateOnly(year: 2027, month: 1, day: 9));
         productInfo.Copyright.Returns(copyright);
 
         AboutDialogView view = new() { DataContext = new AboutDialogViewModel(productInfo) };
@@ -44,7 +44,7 @@ public sealed class AboutDialogViewTests
     [ AvaloniaFact ]
     public void LongCopy_WrapsWithinWindowWidth()
     {
-        string copyright = string.Concat(Enumerable.Repeat("word ", 60))
+        string copyright = string.Concat(Enumerable.Repeat(element: "word ", count: 60))
                                  .TrimEnd();
 
         copyright.Length.ShouldBe(expected: 299);
@@ -57,7 +57,7 @@ public sealed class AboutDialogViewTests
                                   .OfType<TextBlock>()
                                   .Single(block => block.Text == copyright);
 
-        textBlock.TextWrapping.ShouldBe(TextWrapping.Wrap);
+        textBlock.TextWrapping.ShouldBe(expected: TextWrapping.Wrap);
         textBlock.Bounds.Height.ShouldBeGreaterThan(textBlock.FontSize * 2);
         view.Bounds.Width.ShouldBe(expected: 430);
     }

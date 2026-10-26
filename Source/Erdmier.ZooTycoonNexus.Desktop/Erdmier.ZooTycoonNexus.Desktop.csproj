@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <AssemblyMetadata Include="BuildDateUtc" Value="$([System.DateTime]::UtcNow.ToString('yyyy-MM-dd'))" />
+        <AssemblyMetadata Include="BuildDateUtc" Value="$([System.DateTime]::UtcNow.ToString('s').Substring(0, 10))" />
     </ItemGroup>
 
     <ItemGroup>
