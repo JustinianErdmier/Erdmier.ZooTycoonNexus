@@ -53,7 +53,7 @@ Avalonia.Headless.XUnit.
 
 ## Task 0: Branch, ledger and before screenshots (controller)
 
-- [ ] **Step 1:** Create `feat/milestone-15-about-dialogue` from `main`; create the ledger and register it in the `.slnx` (`/Docs/Ledgers/Epic-1-MVP/`, after
+- [x] **Step 1:** Create `feat/milestone-15-about-dialogue` from `main`; create the ledger and register it in the `.slnx` (`/Docs/Ledgers/Epic-1-MVP/`, after
   milestone 14). Capture the main window (title bar and status bar) from the current build.
 
 ---
